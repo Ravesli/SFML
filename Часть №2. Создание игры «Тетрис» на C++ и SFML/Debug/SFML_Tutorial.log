@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\dev\sfml_tutorial\main.cpp(44): warning C4305: инициализация: усечение из "double" в "float"
+c:\dev\sfml_tutorial\main.cpp(118): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  SFML_Tutorial.vcxproj -> C:\dev\SFML_Tutorial\Debug\SFML_Tutorial.exe

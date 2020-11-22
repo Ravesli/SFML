@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\donbutadeus\desktop\sfml + ms visual studio\famtrinli\minesweeper\sources\main.cpp(8): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+c:\users\donbutadeus\desktop\sfml + ms visual studio\famtrinli\minesweeper\sources\main.cpp(76): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  SFML_Tutorial.vcxproj -> C:\Users\donButadeus\Desktop\SFML + MS Visual Studio\FamTrinli\MineSweeper\sources\Debug\SFML_Tutorial.exe

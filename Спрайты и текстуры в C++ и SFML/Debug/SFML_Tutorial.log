@@ -1,0 +1,3 @@
+﻿  main.cpp
+c:\dev\sfml_tutorial\main.cpp(52): warning C4305: аргумент: усечение из "double" в "float"
+  SFML_Tutorial.vcxproj -> C:\dev\SFML_Tutorial\Debug\SFML_Tutorial.exe
