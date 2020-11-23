@@ -4,17 +4,17 @@ using namespace sf;
 
 int main()
 {
-	//Генератор случайных чисел
+	// Генератор случайных чисел
 	srand(time(0));
 
 	RenderWindow app(VideoMode(400, 400), "Minesweeper!");
 	
-	//Ширина клетки
+	// Ширина клетки
 	int w = 32;
 	int gridLogic[12][12];
 	int gridView[12][12]; 
 	
-	//Загрузка текстуры и создание спрайта
+	// Загрузка текстуры и создание спрайта
 	Texture t;
 	t.loadFromFile("images/tiles.jpg");
 	Sprite s(t);
@@ -26,7 +26,8 @@ int main()
 			if (rand() % 5 == 0)  gridLogic[i][j] = 9;
 			else gridLogic[i][j] = 0;
 		}
-	//Подсчет мин вокруг каждой клетки
+		
+	// Подсчет мин вокруг каждой клетки
 	for (int i = 1; i <= 10; i++)
 		for (int j = 1; j <= 10; j++)
 		{
@@ -45,7 +46,7 @@ int main()
 
 	while (app.isOpen())
 	{
-		//Получаем координаты мыши относительно окна нашего приложения
+		// Получаем координаты мышки относительно окна нашего приложения
 		Vector2i pos = Mouse::getPosition(app);
 		int x = pos.x / w;
 		int y = pos.y / w;
@@ -55,29 +56,33 @@ int main()
 		{
 			if (e.type == Event::Closed)
 				app.close();
-			//Была нажата кнопка мыши…?
+			
+			// Была нажата кнопка мыши…?
 			if (e.type == Event::MouseButtonPressed)
-				//Если это - левая кнопка мыши, то открываем клетку
+				// Если это - левая кнопка мыши, то открываем клетку
 				if (e.key.code == Mouse::Left) gridView[x][y] = gridLogic[x][y];
-				//Если это – правая кнопка мыши, то отображаем флажок
+				// Если это – правая кнопка мыши, то отображаем флажок
 				else if (e.key.code == Mouse::Right) gridView[x][y] = 11;
 		}
 
-		//Устанавливаем белый фон
+		// Устанавливаем белый фон
 		app.clear(Color::White);
 
 		for (int i = 1; i <= 10; i++)
 			for (int j = 1; j <= 10; j++)
 			{
 				if (gridView[x][y] == 9) gridView[i][j] = gridLogic[i][j];
-				//Вырезаем из спрайта нужный нам квадратик текстуры
+				
+				// Вырезаем из спрайта нужный нам квадратик текстуры
 				s.setTextureRect(IntRect(gridView[i][j] * w, 0, w, w));
-				//Устанавливаем его заданную позицию…
+				
+				// Устанавливаем его заданную позицию…
 				s.setPosition(i*w, j*w);
-				//… и отрисовываем
+				
+				// … и отрисовываем
 				app.draw(s);
 			}
-		//отображаем всю композицию на экране
+		// Отображаем всю композицию на экране
 		app.display();
 	}
 

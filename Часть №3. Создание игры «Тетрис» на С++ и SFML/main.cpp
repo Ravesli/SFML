@@ -2,12 +2,12 @@
 #include <time.h>
 using namespace sf;
 
-const int M = 20; //Высота игрового поля
-const int N = 10; //Ширина игрового поля
+const int M = 20; // высота игрового поля
+const int N = 10; // ширина игрового поля
 
-int field[M][N] = { 0 }; //Игровое поле
+int field[M][N] = { 0 }; // игровое поле
 
-//Массив фигурок-тетрамино
+// Массив фигурок-тетрамино
 int figures[7][4] =
 {
 	1,3,5,7, // I
@@ -24,7 +24,7 @@ struct Point
 	int x, y;
 } a[4], b[4];
 
-//Проверка на выход за границы игрового поля
+// Проверка на выход за границы игрового поля
 bool check()
 {
 	for (int i = 0; i < 4; i++)
@@ -42,66 +42,69 @@ int main()
 
 	RenderWindow window(VideoMode(320, 480), "The Game!");
 
-	//Создание и загрузка текстуры
+	// Создание и загрузка текстуры
 	Texture texture, texture_background, texture_frame;
 	texture.loadFromFile("C:\\dev\\SFML_Tutorial\\images\\tiles.png");
 	texture_background.loadFromFile("C:\\dev\\SFML_Tutorial\\images\\background.png");
 	texture_frame.loadFromFile("C:\\dev\\SFML_Tutorial\\images\\frame.png");
 
-	//Создание спрайта
+	// Создание спрайта
 	Sprite sprite(texture), sprite_background(texture_background), sprite_frame(texture_frame);
-	//Вырезаем из спрайта отдельный квадратик размером 18х18 пикселей
+	
+	// Вырезаем из спрайта отдельный квадратик размером 18х18 пикселей
 	sprite.setTextureRect(IntRect(0, 0, 18, 18));
 
-	//Переменные для горизонтального перемещения и вращения
+	// Переменные для горизонтального перемещения и вращения
 	int dx = 0; bool rotate = 0; int colorNum = 1; bool beginGame = true; int n = rand() % 7;
 
-	//Переменные для таймера и задержки
+	// Переменные для таймера и задержки
 	float timer = 0, delay = 0.3;
 
-	//Часы (таймер)
+	// Часы (таймер)
 	Clock clock;
 
 
-	//Главный цикл приложения. Выполняется, пока открыто окно.
+	// Главный цикл приложения. Выполняется, пока открыто окно
 	while (window.isOpen())
 	{
-		//Получаем время, прошедшее с начала отсчета, и конвертируем его в секунды
+		// Получаем время, прошедшее с начала отсчета, и конвертируем его в секунды
 		float time = clock.getElapsedTime().asSeconds();
 		clock.restart();
 		timer += time;
 
-		//Обрабатываем очередь событий в цикле
+		// Обрабатываем очередь событий в цикле
 		Event event;
 		while (window.pollEvent(event))
 		{
-			//Пользователь нажал на «крестик» и хочет окно закрыть?
+			// Пользователь нажал на «крестик» и хочет окно закрыть?
 			if (event.type == Event::Closed)
-				//Тогда закрываем его
+				// тогда закрываем его
 				window.close();
-			//Была нажата кнопка на клавиатуре?
+				
+			// Была нажата кнопка на клавиатуре?
 			if (event.type == Event::KeyPressed)
-				//Эта кнопка – стрелка вверх?…
+				// Эта кнопка – стрелка вверх?…
 				if (event.key.code == Keyboard::Up) rotate = true;
-			//…или же стрелка влево?…
+				// …или же стрелка влево?…
 				else if (event.key.code == Keyboard::Left) dx = -1;
-			////…ну тогда может это стрелка вправо?
+				// …ну тогда может это стрелка вправо?
 				else if (event.key.code == Keyboard::Right) dx = 1;
 		}
 
-		//Нажали кнопку "вниз"? Ускоряем падение тетрамино
+		// Нажали кнопку "вниз"? Ускоряем падение тетрамино
 		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.05;
 
 		//// Горизонтальное перемещение ////
 		for (int i = 0; i < 4; i++) { b[i] = a[i]; a[i].x += dx; }
-		//Вышли за пределы поля после перемещения? Тогда возвращаем старые координаты 
+		
+		// Вышли за пределы поля после перемещения? Тогда возвращаем старые координаты 
 		if (!check()) for (int i = 0; i < 4; i++) a[i] = b[i];
 
 
-		////// Вращение //////
+		//// Вращение ////
 		if (rotate)
 		{
-			Point p = a[1]; //Задаем центр вращения
+			Point p = a[1]; // задаем центр вращения
 			for (int i = 0; i < 4; i++)
 			{
 				int x = a[i].y - p.y; //y-y0
@@ -109,12 +112,12 @@ int main()
 				a[i].x = p.x - x;
 				a[i].y = p.y + y;
 			}
-			//Вышли за пределы поля после поворота? Тогда возвращаем старые координаты 
+			// Вышли за пределы поля после поворота? Тогда возвращаем старые координаты 
 			if (!check()) { for (int i = 0; i < 4; i++) a[i] = b[i]; }
 
 		}
 
-		////// Движение тетрамино вниз («Тик» таймера) //////
+		//// Движение тетрамино вниз (Тик таймера) ////
 		if (timer > delay)
 		{
 			for (int i = 0; i < 4; i++) { b[i] = a[i]; a[i].y += 1; }
@@ -147,7 +150,7 @@ int main()
 			if (count < N) k--;
 		}
 		
-		//Первое появление тетрамино на поле?
+		// Первое появление тетрамино на поле?
 		if (beginGame)
 		{
 			beginGame = false;
@@ -161,7 +164,8 @@ int main()
 		dx = 0; rotate = 0; delay = 0.3;
 		
 		//----ОТРИСОВКА----//
-		//Задаем цвет фона (Белый)
+		
+		// Задаем цвет фона - белый
 		window.clear(Color::White);
 		window.draw(sprite_background);
 		for (int i = 0; i < M; i++)
@@ -170,23 +174,27 @@ int main()
 				if (field[i][j] == 0) continue;
 				sprite.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
 				sprite.setPosition(j * 18, i * 18);
-				sprite.move(28, 31); //Смещение
+				sprite.move(28, 31); // смещение
 				window.draw(sprite);
 			}
 
 		for (int i = 0; i < 4; i++)
 		{
-			//Разукрашиваем тетрамино
+			// Разукрашиваем тетрамино
 			sprite.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
-			//Устанавливаем позицию каждого кусочка тетрамино
+			
+			// Устанавливаем позицию каждого кусочка тетрамино
 			sprite.setPosition(a[i].x * 18, a[i].y * 18);
-			sprite.move(28, 31); //Смещение
-			//Отрисовка спрайта
+			
+			sprite.move(28, 31); // смещение
+			
+			// Отрисовка спрайта
 			window.draw(sprite);
 		}
-		//Отрисовка фрейма
+		// Отрисовка фрейма
 		window.draw(sprite_frame);
-		//Отрисовка окна
+		
+		// Отрисовка окна
 		window.display();
 	}
 
